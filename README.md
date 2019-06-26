@@ -1,4 +1,4 @@
-![logo](https://i.imgur.com/gZFKOaf.png)
+![logo](https://i.imgur.com/Jn0SXMX.png)
 
 Como muitos tem me pedido esse script resolvi soltar free!<br>
 - Contem um total de 147 mascaras com sub comandos, <code>ex: /mascara lobo</code>
@@ -11,7 +11,7 @@ Como muitos tem me pedido esse script resolvi soltar free!<br>
 # Adicionar:<br>
 <b>items.lua:</b> vrp/cfg/items.lua<br>
 Dentro do cfg.items adicione <code>["mascara"] = {"Mascara", "", nil, 0.1},</code><br>
-Ex b2k: <code>["mascara"] = {"Mascara", "azt_mask", nil, 0, "<span class='special-item'>Mascara</span>"},<code><br>
+Ex base b2k: <code>["mascara"] = {"Mascara", "azt_mask", nil, 0, "<span class='special-item'>Mascara</span>"},</code><br>
 Obs: caso adicionem o item com um nome diferente altere o item no <code>server.lua</code> e no <code>basic_skinshop.lua</code>
 
 <b>basic_skinshop.lua:</b> vrp/modules/basic_skinshop.lua<br>
