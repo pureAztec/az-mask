@@ -1,4 +1,4 @@
-![logo](https://i.imgur.com/gZFKOaf.png)
+![logo](https://i.imgur.com/Jn0SXMX.png)
 
 Como muitos tem me pedido esse script resolvi soltar free!<br>
 - Contem um total de 147 mascaras com sub comandos, <code>ex: /mascara lobo</code>
