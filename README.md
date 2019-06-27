@@ -1,6 +1,8 @@
 ![logo](https://i.imgur.com/Jn0SXMX.png)
 
 Como muitos tem me pedido esse script resolvi soltar free!<br>
+Video demostrativo: https://youtu.be/c40KfLvjdVQ
+
 - Contem um total de 145 mascaras com sub comandos, <code>ex: /mascara lobo</code>
 - Opções configuraveis como item necessario, nome das mascaras, mascaras do sv de graça e muito mais!<br>
 - Salvando a mascara comprada<br>
