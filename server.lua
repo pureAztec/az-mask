@@ -117,15 +117,17 @@ end, false)
 RegisterNetEvent('azt:joined')
 AddEventHandler('azt:joined', function()
 	local user_id = vRP.getUserId({source})
-	key = 'ped:u'..user_id..'mask'
-	MySQL.query("vRP/getMask", {dkey = key}, function(rows)			
-		if #rows > 0 then
-			TriggerClientEvent("azt:current", source, json.decode(rows[1]['dvalue']))	
-		else
-			key = 'ped:u'..user_id..'mask'
-			MySQL.execute("vRP/insertMask", {key = key, value = json.encode({0, 0})})
-		end
-	end)
+	if user_id ~= nil then
+		key = 'ped:u'..user_id..'mask'
+		MySQL.query("vRP/getMask", {dkey = key}, function(rows)			
+			if #rows > 0 then
+				TriggerClientEvent("azt:current", source, json.decode(rows[1]['dvalue']))	
+			else
+				key = 'ped:u'..user_id..'mask'
+				MySQL.execute("vRP/insertMask", {key = key, value = json.encode({0, 0})})
+			end
+		end)
+	end
 end, false)
 
 RegisterNetEvent('azt:defaultData')
@@ -136,8 +138,5 @@ end, false)
 
 RegisterNetEvent('azt:animation')
 AddEventHandler('azt:animation', function(animation)
-	local emote = animations[animation]
-	if emote then
-    	vRPclient.playAnim(source,{emote[1],emote[2],emote[3]})
-  	end
+	vRPclient.playAnim(source,{animations[animation][1],animations[animation][2],animations[animation][3]})
 end, false)
