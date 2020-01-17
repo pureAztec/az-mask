@@ -2,104 +2,42 @@
 --[[----------------------------------------------------------------------]]--
 --[[  Licença: c69aae396d9d2102a43a839d97775907							              ]]--
 --[[  Discord: AZTËC™#0001                                                ]]--
---[[  Discord: discord.me/aztecde                                         ]]--
 --[[  Youtube: https://www.youtube.com/channel/UC8jGkFhiXnbWWBbr90z596Q   ]]--
 --[[----------------------------------------------------------------------]]--
 
-local showNotification = true
-local timeAnim = 2000           -- # Tempo de delay pra fazera animação
+AZT = {}
+Tunnel.bindInterface('azt_mask',  AZT)
+AZTserver = Tunnel.getInterface('azt_mask', 'azt_mask')
+vRP = Proxy.getInterface('vRP')
 
-local currentMask = GetPedDrawableVariation(GetPlayerPed(-1), 1)
-if currentMask > 0 then dressedMask = true else dressedMask = false end
+local animations = {
+	['put'] = {true, {{'misscommon@van_put_on_masks','put_on_mask_ps',1}}, false},
+	['take'] = {true, {{'veh@common@fp_helmet@', 'take_off_helmet_stand', 1}}, false}
+}
 
-TriggerServerEvent("azt:joined")
+AZT.putMask = function(drawable, texture)
+  vRP.playAnim({animations['put'][1], animations['put'][2], animations['put'][3]})
+  Citizen.SetTimeout(2000, function()
+    SetPedComponentVariation(GetPlayerPed(-1), 1, tonumber(drawable), tonumber(texture), 2)
+  end)
+end
 
-RegisterNetEvent("azt:current")
-AddEventHandler("azt:current", function(current)
-  if current ~= 0 or current ~= "[]" or current[1] ~= 0  or current[2] ~= 0 then
-    if current[1] == 0 then
-      if current[2] ~= 0 then
-        TriggerServerEvent("azt:defaultData")
-      end
-    end
-  end
-end, false)
+AZT.getMask = function()
+	return GetPedDrawableVariation(GetPlayerPed(-1), 1), GetPedTextureVariation(GetPlayerPed(-1), 1), GetNumberOfPedTextureVariations(GetPlayerPed(-1), 1, GetPedDrawableVariation(GetPlayerPed(-1), 1))-1
+end
 
-RegisterNetEvent("azt:noItemMask")
-AddEventHandler("azt:noItemMask", function()
+AZT.removeMask = function()
   if GetPedDrawableVariation(GetPlayerPed(-1), 1) ~= 0 then
-    TriggerServerEvent("azt:animation", "take")
-    Citizen.SetTimeout(timeAnim-300, function()
-      SetPedComponentVariation(GetPlayerPed(-1), 1)    
-      dressedMask = false
+    vRP.playAnim({animations['take'][1], animations['take'][2], animations['take'][3]})
+    Citizen.SetTimeout(1700, function()
+      SetPedComponentVariation(GetPlayerPed(-1), 1, 0, 0, 2)
     end)
   end
-end, false)
+end
 
-RegisterNetEvent("azt:notifyPicture")
-AddEventHandler("azt:notifyPicture", function(title, subtitle)
-  SetNotificationTextEntry("STRING")
+AZT.notify = function(title, subtitle)
+  SetNotificationTextEntry('STRING')
   AddTextComponentString(subtitle)  
-  SetNotificationMessage("CHAR_AZTEC", "CHAR_AZTEC", false, 0, "AZT: "..title, "github.com/pureAztec      ")
+  SetNotificationMessage('CHAR_AZTEC', 'CHAR_AZTEC', false, 0, 'AZT: '..title, 'github.com/pureAztec      ')
   DrawNotification(false, true)
-end, false)
-
-RegisterNetEvent("azt:mask")
-AddEventHandler("azt:mask", function(model, current)
-  currentMask = GetPedDrawableVariation(GetPlayerPed(-1), 1)
-  if currentMask > 0 then dressedMask = true else dressedMask = false end  
-  if model == "server" then
-    if currentMask == current then return end
-    if dressedMask == false then
-      if current or current ~= "" then 
-        if showNotification then TriggerEvent("azt:notifyPicture", "Otimo!", "~y~Colocando a mascara aguarde...") end        
-        TriggerServerEvent("azt:animation", "put")
-        Citizen.SetTimeout(timeAnim, function()
-          SetPedComponentVariation(GetPlayerPed(-1), 1, current, 0, 2)
-          dressedMask = true
-        end) 
-      end
-    else
-      if showNotification then TriggerEvent("azt:notifyPicture", "Otimo!", "~y~Trocando de mascara, aguarde um momento...") end
-      TriggerServerEvent("azt:animation", "take")
-      Citizen.SetTimeout(timeAnim-300, function()
-        SetPedComponentVariation(GetPlayerPed(-1), 1)  
-        if current then
-          TriggerServerEvent("azt:animation", "put")
-          Citizen.SetTimeout(timeAnim, function()
-            SetPedComponentVariation(GetPlayerPed(-1), 1, current, 0, 2)
-            dressedMask = true
-          end)
-        end
-        dressedMask = false
-      end)      
-    end   
-  end
-  if model == "player" then
-    if current == 0 or current == "[]" or current[1] == 0 then
-        if showNotification then TriggerEvent("azt:notifyPicture", "Ops!", "~y~Você não posssui ~r~mascara~y~, compre uma!") end
-    else      
-      if dressedMask == false then
-        if showNotification then TriggerEvent("azt:notifyPicture", "Otimo!", "~y~Colocando a mascara aguarde...") end
-        TriggerServerEvent("azt:animation", "put")
-        Citizen.SetTimeout(timeAnim, function()
-          SetPedComponentVariation(GetPlayerPed(-1), 1, tonumber(current[1]), tonumber(current[2]), 2)
-          dressedMask = true
-        end)
-      else
-        if showNotification then TriggerEvent("azt:notifyPicture", "Otimo!", "~y~Tirando a mascara aguarde...") end
-        TriggerServerEvent("azt:animation", "take")
-        Citizen.SetTimeout(timeAnim-300, function()
-          SetPedComponentVariation(GetPlayerPed(-1), 1)    
-          dressedMask = false
-        end)        
-      end
-    end
-  end
-end, false)
-
-function ShowNotification(text)
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawNotification(false, false)
 end
