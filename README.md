@@ -5,7 +5,8 @@ Video demostrativo: https://youtu.be/c40KfLvjdVQ
 
 - Salvando a mascara comprada<br>
 - Animação ao colocar e retirar<br>
-- Contem um total de 145 mascaras com sub comandos, <code>ex: /mascara lobo & /mascara lobo [cor] & /mascara [id] [cor]</code>
+- Contem um total de 145 mascaras com sub comandos...
+<code>ex: /mascara lobo & /mascara lobo [cor] & /mascara [id] [cor]</code>
 - Opções configuraveis como item necessario, nome das mascaras, mascaras do sv de graça!<br>
 - Comando "/mascara ajuda" mostra todas mascaras disponiveis<br>
 
